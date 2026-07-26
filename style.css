@@ -79,20 +79,27 @@ header .container {
 header .programme {
     font-size: 10px;
     color: #2BBFBF;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     text-transform: uppercase;
-    margin-bottom: 22px;
+    margin-bottom: 28px;
     font-weight: 700;
 }
 
 header h1 {
-    font-size: 40px;
+    font-size: 42px;
     font-weight: 800;
     line-height: 1.1;
     color: #ffffff;
-    margin-bottom: 18px;
+    margin-bottom: 0;
     text-transform: uppercase;
     letter-spacing: -0.5px;
+}
+
+header .header-divider {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #2BBFBF, #7FE8E8);
+    margin: 22px auto;
 }
 
 header .subtitle {
@@ -100,28 +107,28 @@ header .subtitle {
     color: #2BBFBF;
     letter-spacing: 3px;
     text-transform: uppercase;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
 }
 
 header .author-name {
-    font-size: 20px;
-    color: rgba(255,255,255,0.92);
+    font-size: 22px;
+    color: rgba(255,255,255,0.95);
     font-weight: 600;
-    margin-bottom: 26px;
-    padding-bottom: 26px;
-    border-bottom: 1px solid rgba(43,191,191,0.25);
-    display: inline-block;
+    margin-bottom: 0;
+    display: block;
 }
 
 .header-supervisors {
-    display: inline-block;
+    display: block;
     text-align: center;
-    margin-top: 4px;
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(43,191,191,0.2);
 }
 
 .header-supervisors p {
     font-size: 12px;
-    color: rgba(255,255,255,0.55);
+    color: rgba(255,255,255,0.5);
     margin-bottom: 6px;
 }
 
