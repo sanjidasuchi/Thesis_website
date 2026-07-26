@@ -1,0 +1,606 @@
+/* ── Reset ───────────────────────────────────────────── */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ── Base ────────────────────────────────────────────── */
+body {
+    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+    background-color: #EDF1F7;
+    color: #1A2B42;
+    line-height: 1.65;
+    font-size: 16px;
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+a {
+    color: #2A8A8A;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #1A5F5F;
+}
+
+/* ── Header ──────────────────────────────────────────── */
+header {
+    background-color: #0B1929;
+    background-image: url('pics/bg_map.png');
+    background-size: cover;
+    background-position: center;
+    color: #ffffff;
+    padding: 58px 0 50px;
+    position: relative;
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(7, 14, 26, 0.86);
+}
+
+header .container {
+    position: relative;
+    z-index: 1;
+}
+
+.header-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.header-text {
+    width: 100%;
+}
+
+header .programme {
+    font-size: 10px;
+    color: #3FBDBD;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+header h1 {
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 1.15;
+    color: #ffffff;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+}
+
+header .subtitle {
+    font-size: 11px;
+    color: #3FBDBD;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+header .author-name {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.88);
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.header-supervisors {
+    display: inline-block;
+    text-align: center;
+}
+
+.header-supervisors p {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 5px;
+}
+
+.sup-role {
+    color: #3FBDBD;
+    font-weight: 700;
+}
+
+.scroll-hint {
+    display: none;
+}
+
+/* ── Navigation ──────────────────────────────────────── */
+nav {
+    background-color: #162435;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+nav ul li a {
+    display: block;
+    padding: 14px 18px;
+    color: rgba(255, 255, 255, 0.65);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+nav ul li a:hover {
+    color: #3FBDBD;
+    background-color: rgba(63, 189, 189, 0.08);
+}
+
+nav .nav-resources {
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    background-color: #0D1A2A;
+    padding: 10px 0;
+    gap: 8px;
+}
+
+nav .nav-resources li a {
+    padding: 8px 20px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    letter-spacing: 1px;
+}
+
+nav .nav-resources li a:hover {
+    color: #3FBDBD;
+    border-color: #3FBDBD;
+    background-color: transparent;
+}
+
+/* ── Main ────────────────────────────────────────────── */
+main {
+    padding: 36px 0 60px;
+}
+
+section {
+    background-color: #ffffff;
+    padding: 28px 32px;
+    margin-bottom: 16px;
+    border-top: 3px solid #3FBDBD;
+}
+
+h2 {
+    font-size: 16px;
+    font-weight: 800;
+    color: #0B1929;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+p {
+    color: #2D4A6A;
+    margin-bottom: 12px;
+}
+
+p:last-child {
+    margin-bottom: 0;
+}
+
+/* ── Topics ──────────────────────────────────────────── */
+.topic-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.topic-list li {
+    background-color: #F0F5FB;
+    border: 1px solid #C8D5E8;
+    padding: 9px 14px;
+    font-size: 14px;
+    color: #2D4A6A;
+}
+
+.topic-list li strong {
+    color: #0B1929;
+}
+
+/* ── Methods ─────────────────────────────────────────── */
+.method-list {
+    margin-left: 22px;
+    margin-top: 10px;
+}
+
+.method-list li {
+    padding: 5px 0;
+    color: #2D4A6A;
+    font-size: 14px;
+}
+
+/* ── Results table ───────────────────────────────────── */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 14px;
+}
+
+thead th {
+    background-color: #0B1929;
+    color: #ffffff;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+tbody td {
+    padding: 9px 14px;
+    border-bottom: 1px solid #DDE5EF;
+    color: #2D4A6A;
+}
+
+tbody tr:nth-child(even) td {
+    background-color: #F5F8FC;
+}
+
+.r-value {
+    font-weight: 800;
+    color: #0B1929;
+    font-variant-numeric: tabular-nums;
+}
+
+.dir-pos {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1A7A4A;
+}
+
+.dir-neg {
+    font-size: 12px;
+    font-weight: 700;
+    color: #B03020;
+}
+
+/* ── Downloads ───────────────────────────────────────── */
+.download-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.download-list li a {
+    display: inline-block;
+    background-color: #0B1929;
+    color: #ffffff;
+    padding: 11px 24px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.3px;
+}
+
+.download-list li a:hover {
+    background-color: #3FBDBD;
+    color: #ffffff;
+}
+
+/* ── Supervisors ─────────────────────────────────────── */
+.supervisor-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 10px;
+}
+
+.supervisor-card {
+    background-color: #F0F5FB;
+    border: 1px solid #C8D5E8;
+    padding: 14px 18px;
+}
+
+.supervisor-card .role {
+    font-size: 10px;
+    font-weight: 700;
+    color: #3FBDBD;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.supervisor-card .name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0B1929;
+}
+
+.supervisor-card .uni {
+    font-size: 12px;
+    color: #6A8AAA;
+    margin-top: 3px;
+}
+
+/* ── Goal cards (Objectives) ─────────────────────────── */
+.goal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 20px;
+    align-items: start;
+}
+
+.goal-card {
+    background-color: #F0F5FB;
+    border: 1px solid #C8D5E8;
+    border-top: 3px solid #3FBDBD;
+    padding: 16px 20px;
+}
+
+.goal-card h3 {
+    font-size: 11px;
+    font-weight: 800;
+    color: #3FBDBD;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+
+.goal-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.goal-card ul li {
+    font-size: 14px;
+    color: #2D4A6A;
+    padding: 7px 0 7px 18px;
+    position: relative;
+    border-bottom: 1px solid #DDE5EF;
+    line-height: 1.5;
+}
+
+.goal-card ul li:last-child {
+    border-bottom: none;
+}
+
+.goal-card ul li::before {
+    content: '\2192';
+    color: #3FBDBD;
+    font-weight: 700;
+    position: absolute;
+    left: 0;
+}
+
+/* ── References ──────────────────────────────────────── */
+.ref-list {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.ref-list li {
+    font-size: 14px;
+    color: #2D4A6A;
+    margin-bottom: 12px;
+    padding-left: 2em;
+    text-indent: -2em;
+    line-height: 1.6;
+}
+
+.ref-list a {
+    color: #2A8A8A;
+    word-break: break-all;
+}
+
+/* ── Data source table ───────────────────────────────── */
+.data-table-wrap {
+    overflow-x: auto;
+    margin: 14px 0;
+}
+
+.data-source-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.data-source-table thead th {
+    background-color: #162435;
+    color: rgba(255,255,255,0.75);
+    padding: 9px 12px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.data-source-table tbody td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #DDE5EF;
+    color: #2D4A6A;
+    font-size: 13px;
+}
+
+.data-source-table tbody tr:nth-child(even) td {
+    background-color: #F5F8FC;
+}
+
+/* ── Subsection titles ───────────────────────────────── */
+.subsection-title {
+    font-size: 12px;
+    font-weight: 800;
+    color: #0B1929;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin: 24px 0 12px;
+    padding-top: 18px;
+    border-top: 1px solid #DDE5EF;
+}
+
+/* ── Table note / caption ────────────────────────────── */
+.table-note {
+    font-size: 11px;
+    color: #6A8AAA;
+    margin-top: -4px;
+    font-style: italic;
+}
+
+.maps-intro {
+    font-size: 13px;
+    color: #4A6A8A;
+    margin-bottom: 14px;
+}
+
+.fig-caption {
+    font-size: 11px;
+    color: #6A8AAA;
+    margin-top: 8px;
+    font-style: italic;
+    text-align: center;
+}
+
+/* ── Study area diagram wrapper ──────────────────────── */
+.study-area-diagram {
+    margin-top: 20px;
+    border: 1px solid #DDE5EF;
+}
+
+/* ── Extra result cell styles ────────────────────────── */
+.r-neutral {
+    color: #4A6A8A;
+    font-size: 13px;
+}
+
+/* ── Methodology framework image ─────────────────────── */
+.section-figure {
+    margin-top: 24px;
+    text-align: center;
+}
+
+.section-img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #DDE5EF;
+}
+
+.section-figure figcaption {
+    font-size: 12px;
+    color: #6A8AAA;
+    margin-top: 8px;
+    font-style: italic;
+}
+
+/* ── Results map gallery ─────────────────────────────── */
+.map-gallery-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: #0B1929;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin: 24px 0 14px;
+}
+
+.map-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.map-card {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.map-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid #DDE5EF;
+}
+
+.map-card figcaption {
+    font-size: 11px;
+    color: #6A8AAA;
+    margin-top: 5px;
+    text-align: center;
+    font-style: italic;
+}
+
+/* ── Dashboard embed ─────────────────────────────────── */
+.dashboard-section p {
+    margin-bottom: 12px;
+}
+
+.dashboard-embed {
+    position: relative;
+    width: 100vw;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 16px;
+    margin-bottom: 10px;
+    border-top: 1px solid #DDE5EF;
+    border-bottom: 1px solid #DDE5EF;
+    background: #f0f4f8;
+    min-height: 720px;
+    overflow: hidden;
+}
+
+/* ── Footer ──────────────────────────────────────────── */
+footer {
+    background-color: #F5F7FA;
+    border-top: 1px solid #DDE5EF;
+    padding: 24px 0 20px;
+    text-align: center;
+    font-size: 12px;
+    color: #6A8AAA;
+}
+
+.footer-logos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid #DDE5EF;
+    opacity: 0.75;
+}
+
+.footer-logos img {
+    height: 48px;
+    width: auto;
+    display: block;
+}
+
+.footer-logos img[alt="Palacky University Olomouc logo"] {
+    height: 80px;
+}
+
+.footer-logos img[alt="Co-funded by the European Union"] {
+    height: 36px;
+}

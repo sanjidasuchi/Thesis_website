@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prague Mapped by People and Satellites — Most Sanjida Anjum Suchi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <div class="header-inner">
+            <div class="header-text">
+                <p class="programme">Erasmus Mundus Joint Master Degree Programme &nbsp;|&nbsp; Copernicus Master in Digital Earth</p>
+                <h1>Prague Mapped by People and Satellites</h1>
+                <p class="subtitle">Diploma Thesis &middot; 2026</p>
+                <p class="author-name">Most Sanjida Anjum Suchi</p>
+                <div class="header-supervisors">
+                    <p><span class="sup-role">UPOL Supervisor:</span> Assoc. prof. RNDr. Stanislav Popelka, Ph.D.</p>
+                    <p><span class="sup-role">PLUS Supervisor:</span> Assoc. Prof. Stefan Lang, PhD</p>
+                </div>
+                <p class="scroll-hint">&#8595;</p>
+            </div>
+        </div>
+    </div>
+</header>
+
+<nav>
+    <div class="container">
+        <ul>
+            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#objectives">Objectives</a></li>
+            <li><a href="#study-area">Study Area</a></li>
+            <li><a href="#methodology">Methodology</a></li>
+            <li><a href="#results">Results</a></li>
+            <li><a href="#conclusion">Conclusion</a></li>
+        </ul>
+        <ul class="nav-resources">
+            <li><a href="docs/thesis.pdf" download>&#8595; Full Article</a></li>
+            <li><a href="docs/poster.pdf" download>&#8595; Poster</a></li>
+            <li><a href="https://prague-dashboard-5yofhxntyv6vlumsxlct3t.streamlit.app" target="_blank">&#8599; Dashboard</a></li>
+        </ul>
+    </div>
+</nav>
+
+<main>
+    <div class="container">
+
+        <section id="introduction">
+            <h2>Introduction</h2>
+            <p>This thesis investigates the spatial relationship between citizens&rsquo; subjective perceptions of urban quality and satellite-derived environmental indicators across Prague. Drawing on Participatory GIS (PPGIS) data collected through the <a href="https://emotionalmaps.eu" target="_blank">EmotionalMaps.eu</a> platform, the study analyses seven distinct urban quality topics: safety, free time, lack of green space, traffic hazard, civic pride, need for change, and waste infrastructure, each mapped by Prague residents as geo-tagged point marks and spatially aggregated to a regular 1&nbsp;km&sup2; hexagonal grid covering the city&rsquo;s administrative boundary.</p>
+            <p>For each topic, environmental indicators extracted from Copernicus, Sentinel, and MODIS satellite products are correlated with citizen perception marks using Spearman rank correlation. The analysis reveals statistically significant spatial relationships across all seven topics (p&nbsp;&lt;&nbsp;0.001), confirming that physical urban characteristics measurable from space are systematically reflected in how residents experience their city. Raw participation counts were normalised by residential population to remove the sampling bias inherent in voluntarily submitted geo-referenced data.</p>
+            <p>An interactive web dashboard was developed to communicate findings to non-specialist audiences and evaluated through usability testing with eight participants, with iterative refinements informed by user feedback.</p>
+        </section>
+
+        <section id="objectives">
+            <h2>Objectives</h2>
+            <p>This thesis investigates the spatial relationship between citizens&rsquo; perception of the urban environment and satellite-derived environmental indicators across Prague, using PPGIS data integrated with Copernicus Earth Observation products.</p>
+            <ol class="method-list">
+                <li>Analyse citizen perception data from EmotionalMaps.eu across seven urban quality topics using a 1&nbsp;km&sup2; hexagonal grid</li>
+                <li>Extract and process satellite indicators (NDVI, Nighttime Lights, LST, NO<sub>2</sub>, Imperviousness) from Copernicus and GEE</li>
+                <li>Quantify spatial relationships using Spearman rank correlation between population-normalised citizen marks and each indicator</li>
+                <li>Produce bivariate choropleth maps to visualise spatial co-variation of perception and satellite data across all seven topics</li>
+                <li>Design, deploy, and evaluate an interactive web dashboard through usability testing with eight participants</li>
+            </ol>
+        </section>
+
+        <section id="study-area">
+            <h2>Study Area</h2>
+            <p>Prague, the capital of the Czech Republic, served as the study area. With a population of approximately 1.4&nbsp;million and an administrative extent of 496&nbsp;km&sup2;, the city encompasses a spatially diverse urban landscape, from the dense historic core of Old Town and Mal&aacute; Strana through mixed residential and commercial inner districts to suburban zones and green-belt periphery defined by the Vltava river corridor and surrounding forested hills.</p>
+            <p>The entire administrative boundary was subdivided into a regular hexagonal tessellation of 579 grid cells, each covering approximately 1&nbsp;km&sup2;, generated using the ArcGIS Pro <em>Generate Tessellation</em> tool. This spatial framework enabled direct integration of citizen-contributed PPGIS marks with gridded satellite products at a consistent resolution. Satellite data were acquired for the 2023 reference year from Google Earth Engine and the Copernicus Land Monitoring Service; citizen perception data were provided by the EmotionalMaps.eu participatory mapping platform (P&aacute;nek et al., 2021).</p>
+        </section>
+
+        <section id="methodology">
+            <h2>Methodology</h2>
+            <p>The study integrated two primary data streams: citizen perception marks from EmotionalMaps.eu and satellite-derived environmental indicators processed via Google Earth Engine and ArcGIS Pro. The analytical workflow comprised five stages:</p>
+            <ol class="method-list">
+                <li><strong>Data collection:</strong> Point marks for seven urban quality topics extracted from EmotionalMaps.eu for Prague (P&aacute;nek et al., 2021), yielding between 318 and 579 hexagonal observations per topic</li>
+                <li><strong>Spatial aggregation:</strong> Points joined to the 1&nbsp;km&sup2; hexagonal grid; raw counts normalised by residential population (GHSL 2020) to control for participation density bias</li>
+                <li><strong>Satellite indicator extraction:</strong> Mean raster values per hexagon computed using <em>Zonal Statistics as Table</em> in ArcGIS Pro; indicators listed in the table below</li>
+                <li><strong>Statistical analysis:</strong> Spearman rank correlation as primary inferential test, selected for robustness to strongly right-skewed count distributions; OLS regression applied to multi-indicator topics to assess independent predictor contributions</li>
+                <li><strong>Bivariate mapping:</strong> 3&times;3 choropleth maps combining quantile-classified citizen marks with quantile-classified satellite indicators, produced in ArcGIS Pro</li>
+            </ol>
+
+            <h3 class="subsection-title">Satellite Data Sources</h3>
+            <div class="data-table-wrap">
+                <table class="data-source-table">
+                    <thead>
+                        <tr>
+                            <th>Indicator</th>
+                            <th>Source</th>
+                            <th>Resolution</th>
+                            <th>Reference Year</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>NDVI (Vegetation Cover)</td><td>Sentinel-2 Level-2A, Google Earth Engine</td><td>10&nbsp;m</td><td>2023 (growing season)</td></tr>
+                        <tr><td>Nighttime Lights</td><td>NOAA VIIRS Day/Night Band, Google Earth Engine</td><td>500&nbsp;m</td><td>2023 (annual mean)</td></tr>
+                        <tr><td>Imperviousness (IMD)</td><td>Copernicus HRL Imperviousness Density</td><td>10&nbsp;m</td><td>2018</td></tr>
+                        <tr><td>Land Surface Temp. (LST)</td><td>MODIS MOD11A2 8-day composite, GEE</td><td>1&nbsp;km</td><td>Jun&ndash;Aug 2023</td></tr>
+                        <tr><td>NO<sub>2</sub> Column Density</td><td>Sentinel-5P TROPOMI OFFL L3, GEE</td><td>~5&nbsp;km</td><td>2023 (annual mean)</td></tr>
+                        <tr><td>Tree Canopy Cover</td><td>Hansen Global Forest Change v1.10</td><td>30&nbsp;m</td><td>2000 baseline</td></tr>
+                        <tr><td>Population Density</td><td>Global Human Settlement Layer (GHSL, JRC)</td><td>100&nbsp;m</td><td>2020</td></tr>
+                        <tr><td>Water Proximity</td><td>JRC Global Surface Water (Pekel et al., 2016)</td><td>30&nbsp;m</td><td>2020</td></tr>
+                        <tr><td>PPGIS Marks</td><td>EmotionalMaps.eu (P&aacute;nek et al., 2021)</td><td>Point</td><td>2023</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <figure class="section-figure">
+                <img src="pics/framework.png" alt="Overall Analytical Framework" class="section-img">
+            </figure>
+        </section>
+
+        <section id="results">
+            <h2>Key Results</h2>
+            <p>Spearman rank correlations between population-normalised citizen perception marks and satellite-derived environmental indicators were statistically significant across all seven topics (p&nbsp;&lt;&nbsp;0.001). The composite urban stress index constructed for the <em>Need for Change</em> topic, combining Land Surface Temperature, NO<sub>2</sub> column density, and inverted NDVI, yielded the strongest overall correlation (&rho;&nbsp;=&nbsp;+0.712), demonstrating that multi-source composite indicators outperform single-variable models. The <em>Waste Bin</em> topic showed the highest OLS R&sup2; (0.434), with population density emerging as the sole statistically significant predictor once imperviousness was controlled for.</p>
+
+            <div class="data-table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Topic</th>
+                            <th>Strongest Indicator</th>
+                            <th>&rho; (Spearman)</th>
+                            <th>Direction</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Safety</td>
+                            <td>Nighttime Lights</td>
+                            <td class="r-value">+0.485</td>
+                            <td class="dir-pos">&#9650; Positive</td>
+                        </tr>
+                        <tr>
+                            <td>Free Time</td>
+                            <td>NDVI</td>
+                            <td class="r-value">+0.261</td>
+                            <td class="dir-pos">&#9650; Positive</td>
+                        </tr>
+                        <tr>
+                            <td>Lack of Green Space</td>
+                            <td>NDVI</td>
+                            <td class="r-value">&minus;0.321</td>
+                            <td class="dir-neg">&#9660; Negative</td>
+                        </tr>
+                        <tr>
+                            <td>Traffic Hazard</td>
+                            <td>Imperviousness (IMD)</td>
+                            <td class="r-value">+0.710</td>
+                            <td class="dir-pos">&#9650; Positive</td>
+                        </tr>
+                        <tr>
+                            <td>Civic Pride</td>
+                            <td>Nighttime Lights</td>
+                            <td class="r-value">+0.474</td>
+                            <td class="dir-pos">&#9650; Positive</td>
+                        </tr>
+                        <tr>
+                            <td>Need for Change</td>
+                            <td>Composite Index (LST + NO<sub>2</sub> &minus; NDVI)</td>
+                            <td class="r-value">+0.712</td>
+                            <td class="dir-pos">&#9650; Positive</td>
+                        </tr>
+                        <tr>
+                            <td>Waste Bin</td>
+                            <td>Population Density</td>
+                            <td class="r-value">+0.716</td>
+                            <td class="dir-pos">&#9650; Positive</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="table-note">All correlations significant at p&nbsp;&lt;&nbsp;0.001. &rho; values are population-normalised where applicable.</p>
+
+            <h3 class="subsection-title">Bivariate Choropleth Maps</h3>
+            <p class="maps-intro">Each map classifies hexagonal grid cells jointly by citizen perception intensity and the strongest satellite indicator, using a 3&times;3 quantile colour matrix. Dark purple cells indicate areas of both high citizen concern and high environmental stress; light blue cells indicate low perception and high environmental quality.</p>
+            <div class="map-grid">
+                <figure class="map-card">
+                    <img src="pics/map_safety.jpg" alt="Safety perception and NDVI bivariate map, Prague">
+                    <figcaption>Safety &times; NDVI</figcaption>
+                </figure>
+                <figure class="map-card">
+                    <img src="pics/traffic1.jpg" alt="Traffic Hazard and Imperviousness bivariate map, Prague">
+                    <figcaption>Traffic Hazard &times; Imperviousness</figcaption>
+                </figure>
+                <figure class="map-card">
+                    <img src="pics/map_greenspace.jpg" alt="Lack of Green Space and NDVI bivariate map, Prague">
+                    <figcaption>Lack of Green Space &times; NDVI</figcaption>
+                </figure>
+                <figure class="map-card">
+                    <img src="pics/map_freetime.jpg" alt="Free Time and NDVI bivariate map, Prague">
+                    <figcaption>Free Time &times; NDVI</figcaption>
+                </figure>
+                <figure class="map-card">
+                    <img src="pics/map_proudness.jpg" alt="Civic Pride and Nighttime Lights bivariate map, Prague">
+                    <figcaption>Civic Pride &times; Nighttime Lights</figcaption>
+                </figure>
+                <figure class="map-card">
+                    <img src="pics/map_needchange.jpg" alt="Need for Change and Urban Stress Index bivariate map, Prague">
+                    <figcaption>Need for Change &times; Stress Index</figcaption>
+                </figure>
+                <figure class="map-card">
+                    <img src="pics/map_wastebin.jpg" alt="Waste Bin and Population Density bivariate map, Prague">
+                    <figcaption>Waste Bin &times; Population Density</figcaption>
+                </figure>
+            </div>
+            <p>Explore all topics interactively: <a href="https://prague-dashboard-5yofhxntyv6vlumsxlct3t.streamlit.app" target="_blank">Prague Dashboard &#8599;</a></p>
+        </section>
+
+        <section id="conclusion">
+            <h2>Conclusion</h2>
+            <p>This thesis demonstrated that satellite-derived environmental indicators are meaningful spatial proxies for citizens&rsquo; subjective perceptions of urban quality in Prague. Statistically significant Spearman correlations were established for all seven PPGIS topics (p&nbsp;&lt;&nbsp;0.001), confirming that physical urban characteristics measurable from Earth Observation data are systematically reflected in how residents experience their city.</p>
+            <p>Several findings carry methodological significance. Population normalisation proved essential: in the Free Time topic, the raw correlation between NDVI and leisure activity reversed sign after normalisation (from &minus;0.221 to +0.261), demonstrating that voluntarily contributed PPGIS data cannot be used without accounting for residential population bias. For the green space topic, citizen marks functioned as spatially explicit deficit signals rather than inventories of existing vegetation, clustering in low-NDVI urban zones consistent with the environmental justice literature.</p>
+            <p>The composite urban stress index for the Need for Change topic (combining LST, NO<sub>2</sub>, and inverted NDVI) achieved the strongest correlation (&rho;&nbsp;=&nbsp;+0.712), confirming that multi-source composite indicators outperform single-variable models. Imperviousness emerged as the dominant predictor for traffic hazard (&rho;&nbsp;=&nbsp;+0.710), while population density was the sole significant driver of waste bin distribution once imperviousness was controlled for in OLS regression.</p>
+            <p>An interactive Streamlit dashboard was developed and evaluated through usability testing with eight participants. Feedback informed iterative refinements to the bivariate map interface, indicator descriptions, and navigation. The platform enables non-specialist audiences to explore all seven perception topics alongside their satellite correlates dynamically.</p>
+            <p>These findings support the integration of Earth Observation data into participatory urban research workflows, offering planners a scalable, cost-effective means of aligning citizen perception data with objective environmental measurements across city-wide spatial grids.</p>
+        </section>
+
+
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>Most Sanjida Anjum Suchi &middot; Diploma Thesis &middot; Department of Geoinformatics &middot; Faculty of Science &middot; Palack&yacute; University Olomouc &middot; 2026</p>
+        <div class="footer-logos">
+            <img src="pics/cde_logo.jpg" alt="Copernicus Master in Digital Earth logo">
+            <img src="pics/UPOL_logo_horizont_en.png" alt="Palacky University Olomouc logo">
+            <img src="pics/PLUS_Logo_englisch_Farbe.jpg" alt="Paris-Lodron University Salzburg logo">
+            <img src="pics/EN_Co-funded_by_the_EU_POS.jpg" alt="Co-funded by the European Union">
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

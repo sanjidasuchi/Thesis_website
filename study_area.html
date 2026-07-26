@@ -1,0 +1,336 @@
+<title>Prague — Study Area</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #050C18;
+  font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh; padding: 20px;
+}
+.diagram {
+  position: relative; width: 900px; height: 500px;
+  background: #070E1A;
+  border: 1px solid rgba(63,189,189,0.18);
+  overflow: hidden; flex-shrink: 0;
+}
+#mapCanvas { position: absolute; top: 0; left: 0; pointer-events: none; }
+
+/* ── Title ── */
+.title-block { position: absolute; top: 22px; left: 22px; z-index: 5; pointer-events: none; }
+.city-name { font-size: 44px; font-weight: 900; color: #fff; letter-spacing: -1.5px; line-height: 1; text-transform: uppercase; }
+.study-label { font-size: 11px; font-weight: 700; color: #3FBDBD; letter-spacing: 4.5px; text-transform: uppercase; margin-top: 4px; }
+.hex-note { margin-top: 10px; background: rgba(0,0,0,0.5); color: rgba(255,255,255,0.48); font-size: 8.5px; letter-spacing: 1px; text-transform: uppercase; padding: 3px 8px; display: inline-block; }
+
+/* ── Zone insets ── */
+.zone-inset { position: absolute; z-index: 5; width: 142px; border: 1.5px solid; background: rgba(5,12,22,0.92); }
+.zone-canvas { display: block; width: 142px; height: 72px; }
+.zone-label { font-size: 8.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 5px 8px; text-align: center; }
+
+/* ── Side panels ── */
+.panel { position: absolute; z-index: 5; background: rgba(5,14,26,0.93); border: 1px solid rgba(255,255,255,0.1); padding: 12px 14px; width: 160px; }
+.panel-title { font-size: 8px; font-weight: 700; color: #3FBDBD; letter-spacing: 2px; text-transform: uppercase; padding-bottom: 7px; margin-bottom: 9px; border-bottom: 1px solid rgba(63,189,189,0.2); }
+
+/* Legend */
+.legend-panel { top: 18px; right: 18px; }
+.legend-item { display: flex; align-items: center; gap: 7px; margin-bottom: 5px; }
+.legend-hex { width: 12px; height: 12px; flex-shrink: 0; clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%); }
+.legend-text { font-size: 10px; color: rgba(255,255,255,0.72); line-height: 1.2; }
+
+/* Stats */
+.stats-panel { bottom: 18px; right: 18px; }
+.stat-row { display: flex; align-items: flex-start; gap: 9px; margin-bottom: 7px; }
+.stat-val { font-size: 15px; font-weight: 800; color: #fff; line-height: 1; }
+.stat-desc { font-size: 9px; color: rgba(255,255,255,0.45); margin-top: 1px; }
+
+/* Source */
+.source-label { position: absolute; bottom: 8px; left: 0; right: 0; text-align: center; font-size: 7.5px; color: rgba(255,255,255,0.18); letter-spacing: 1px; text-transform: uppercase; z-index: 5; pointer-events: none; }
+</style>
+
+<div class="diagram">
+  <canvas id="mapCanvas" width="900" height="500"></canvas>
+
+  <div class="title-block">
+    <div class="city-name">PRAGUE</div>
+    <div class="study-label">Study Area</div>
+    <div class="hex-note">1 km² Hex Grid &nbsp;·&nbsp; PPGIS + Copernicus EO</div>
+  </div>
+
+  <!-- Zone insets, ordered top→bottom matching their map position (N→S) -->
+  <div class="zone-inset" style="left:22px;top:100px;border-color:#52966A">
+    <canvas id="zc-sub" width="142" height="72"></canvas>
+    <div class="zone-label" style="color:#52966A">Suburban / Green</div>
+  </div>
+  <div class="zone-inset" style="left:22px;top:228px;border-color:#3FBDBD">
+    <canvas id="zc-hist" width="142" height="72"></canvas>
+    <div class="zone-label" style="color:#3FBDBD">Historic Core</div>
+  </div>
+  <div class="zone-inset" style="left:22px;top:352px;border-color:#D4954A">
+    <canvas id="zc-res" width="142" height="72"></canvas>
+    <div class="zone-label" style="color:#D4954A">Residential</div>
+  </div>
+
+  <!-- Legend -->
+  <div class="panel legend-panel">
+    <div class="panel-title">Perception Topics</div>
+    <div class="legend-item"><div class="legend-hex" style="background:#3FBDBD"></div><div class="legend-text">Safety</div></div>
+    <div class="legend-item"><div class="legend-hex" style="background:#52966A"></div><div class="legend-text">Lack of Green Space</div></div>
+    <div class="legend-item"><div class="legend-hex" style="background:#D4954A"></div><div class="legend-text">Free Time</div></div>
+    <div class="legend-item"><div class="legend-hex" style="background:#C05555"></div><div class="legend-text">Traffic Hazard</div></div>
+    <div class="legend-item"><div class="legend-hex" style="background:#8A6BC0"></div><div class="legend-text">Civic Pride</div></div>
+    <div class="legend-item"><div class="legend-hex" style="background:#5580C0"></div><div class="legend-text">Need for Change</div></div>
+    <div class="legend-item"><div class="legend-hex" style="background:#A07050"></div><div class="legend-text">Waste Bin</div></div>
+  </div>
+
+  <!-- Stats -->
+  <div class="panel stats-panel">
+    <div class="panel-title">Prague Municipality</div>
+    <div class="stat-row">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;margin-top:2px">
+        <circle cx="8" cy="5.5" r="3" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+        <path d="M2 14.5c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <div><div class="stat-val">1.4 M</div><div class="stat-desc">Population</div></div>
+    </div>
+    <div class="stat-row">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;margin-top:2px">
+        <rect x="2" y="2" width="12" height="12" rx="1.5" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+        <path d="M5 8h6M8 5v6" stroke="rgba(255,255,255,0.5)" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      <div><div class="stat-val">496 km²</div><div class="stat-desc">City extent</div></div>
+    </div>
+    <div class="stat-row">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;margin-top:2px">
+        <polygon points="8,1 15,4.5 15,11.5 8,15 1,11.5 1,4.5" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+      </svg>
+      <div><div class="stat-val">~370</div><div class="stat-desc">Hex grid cells</div></div>
+    </div>
+    <div class="stat-row">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;margin-top:2px">
+        <circle cx="8" cy="6.5" r="3" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+        <path d="M8 9.5V14M5.5 14h5" stroke="rgba(255,255,255,0.5)" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      <div><div class="stat-val">87,000+</div><div class="stat-desc">PPGIS marks</div></div>
+    </div>
+  </div>
+
+  <div class="source-label">Data: EmotionalMaps.eu &nbsp;·&nbsp; Copernicus EMS &nbsp;·&nbsp; Google Earth Engine</div>
+</div>
+
+<script>
+// ── Main map ──────────────────────────────────────────────────────
+const canvas = document.getElementById('mapCanvas');
+const ctx = canvas.getContext('2d');
+const W = 900, H = 500;
+
+ctx.fillStyle = '#070E1A';
+ctx.fillRect(0, 0, W, H);
+
+// Fine dot grid
+for (let x = 0; x < W; x += 28)
+  for (let y = 0; y < H; y += 28) {
+    ctx.fillStyle = 'rgba(63,189,189,0.032)';
+    ctx.fillRect(x, y, 1.5, 1.5);
+  }
+
+// ── Prague boundary (approximate polygon)
+const praguePoly = [
+  [390,45],[430,42],[470,43],[510,48],[545,57],
+  [575,72],[600,92],[620,115],[638,142],[648,170],
+  [653,200],[653,230],[648,258],[635,284],[617,308],
+  [594,327],[566,342],[534,352],[500,358],[465,360],
+  [430,358],[395,350],[362,336],[333,317],[310,294],
+  [293,268],[282,240],[278,212],[280,183],[288,155],
+  [300,128],[318,104],[340,82],[365,63],[390,48]
+];
+
+function ptInPoly(px, py, poly) {
+  let inside = false;
+  for (let i = 0, j = poly.length-1; i < poly.length; j = i++) {
+    const [xi,yi] = poly[i], [xj,yj] = poly[j];
+    if (((yi>py)!==(yj>py)) && px < (xj-xi)*(py-yi)/(yj-yi)+xi) inside = !inside;
+  }
+  return inside;
+}
+
+// Clip + fill city area
+ctx.save();
+ctx.beginPath();
+praguePoly.forEach(([x,y],i) => i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y));
+ctx.closePath();
+ctx.clip();
+
+const cg = ctx.createRadialGradient(465,205,0,465,205,270);
+cg.addColorStop(0,'#162840'); cg.addColorStop(0.55,'#0F1E30'); cg.addColorStop(1,'#0A1825');
+ctx.fillStyle = cg; ctx.fillRect(0,0,W,H);
+
+// Hex grid
+const hexR = 19;
+const hexH = hexR * Math.sqrt(3);
+const colStep = hexR * 1.5;
+const CORE_X = 415, CORE_Y = 205;
+
+function hex(cx,cy,r,fill,stroke,lw) {
+  ctx.beginPath();
+  for (let i=0;i<6;i++) {
+    const a = Math.PI/3*i - Math.PI/6;
+    i===0 ? ctx.moveTo(cx+r*Math.cos(a), cy+r*Math.sin(a))
+           : ctx.lineTo(cx+r*Math.cos(a), cy+r*Math.sin(a));
+  }
+  ctx.closePath();
+  if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+  ctx.strokeStyle = stroke; ctx.lineWidth = lw; ctx.stroke();
+}
+
+for (let col=-2; col<30; col++) {
+  for (let row=-2; row<22; row++) {
+    const cx = 178 + col*colStep;
+    const cy = 42 + row*hexH + (col%2===0 ? 0 : hexH/2);
+    if (!ptInPoly(cx,cy,praguePoly)) continue;
+    const dx=(cx-CORE_X)/220, dy=(cy-CORE_Y)/180;
+    const dist = Math.sqrt(dx*dx+dy*dy);
+    let fill,stroke;
+    if (dist<0.22) {
+      fill=`rgba(63,189,189,${0.13+Math.random()*0.09})`; stroke='rgba(63,189,189,0.42)';
+    } else if (dist<0.58) {
+      fill=`rgba(70,110,185,${0.07+Math.random()*0.07})`; stroke='rgba(80,130,205,0.27)';
+    } else {
+      fill=`rgba(55,125,75,${0.06+Math.random()*0.06})`; stroke='rgba(70,148,88,0.22)';
+    }
+    hex(cx,cy,hexR-1,fill,stroke,0.75);
+  }
+}
+ctx.restore();
+
+// Boundary glow + line
+ctx.save();
+ctx.beginPath();
+praguePoly.forEach(([x,y],i) => i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y));
+ctx.closePath();
+ctx.strokeStyle='rgba(63,189,189,0.1)'; ctx.lineWidth=12; ctx.stroke();
+ctx.strokeStyle='rgba(63,189,189,0.65)'; ctx.lineWidth=1.8; ctx.stroke();
+ctx.restore();
+
+// Vltava river
+ctx.save();
+ctx.beginPath();
+ctx.moveTo(383,45);
+ctx.bezierCurveTo(370,90,382,135,372,175);
+ctx.bezierCurveTo(362,215,348,242,354,270);
+ctx.bezierCurveTo(360,298,374,318,366,348);
+ctx.bezierCurveTo(360,368,350,378,346,395);
+ctx.strokeStyle='rgba(74,143,192,0.58)'; ctx.lineWidth=3.5; ctx.lineCap='round'; ctx.stroke();
+ctx.save(); ctx.translate(328,248); ctx.rotate(-Math.PI/6);
+ctx.fillStyle='rgba(100,178,240,0.58)'; ctx.font='9px Segoe UI'; ctx.fillText('Vltava',0,0);
+ctx.restore(); ctx.restore();
+
+// Zone markers (dashed circles)
+function zoneMarker(cx,cy,r,g,b) {
+  ctx.save();
+  ctx.beginPath(); ctx.arc(cx,cy,21,0,Math.PI*2);
+  ctx.strokeStyle=`rgba(${r},${g},${b},0.75)`; ctx.lineWidth=1.5; ctx.setLineDash([4,3]); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle=`rgba(${r},${g},${b},0.07)`; ctx.fill();
+  ctx.restore();
+}
+const SUB_X=315,  SUB_Y=150;
+const HIST_X=CORE_X, HIST_Y=CORE_Y;
+const RES_X=520,  RES_Y=315;
+zoneMarker(SUB_X,SUB_Y,  82,150,106);
+zoneMarker(HIST_X,HIST_Y,63,189,189);
+zoneMarker(RES_X,RES_Y, 212,149,74);
+
+// Connector lines (inset right edge → zone marker)
+function connector(x1,y1,x2,y2,color) {
+  ctx.save();
+  const mx = (x1+x2)/2 + 25;
+  ctx.beginPath(); ctx.moveTo(x1,y1);
+  ctx.bezierCurveTo(mx,y1,mx,y2,x2,y2);
+  ctx.strokeStyle=color; ctx.lineWidth=1; ctx.setLineDash([3,4]); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle=color;
+  ctx.beginPath(); ctx.arc(x1,y1,2.5,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(x2,y2,2.5,0,Math.PI*2); ctx.fill();
+  ctx.restore();
+}
+// Inset center-y: top + canvas(72) + label(~19) = total ~91px, center = top+45.5
+connector(164,145.5, SUB_X-21,SUB_Y, 'rgba(82,150,106,0.55)');
+connector(164,273.5, HIST_X-21,HIST_Y,'rgba(63,189,189,0.55)');
+connector(164,397.5, RES_X-21,RES_Y, 'rgba(212,149,74,0.55)');
+
+// North arrow
+const nx=235, ny=450;
+ctx.save();
+ctx.beginPath(); ctx.moveTo(nx,ny-18); ctx.lineTo(nx+6,ny+2); ctx.lineTo(nx,ny-2); ctx.closePath();
+ctx.fillStyle='rgba(255,255,255,0.75)'; ctx.fill();
+ctx.beginPath(); ctx.moveTo(nx,ny-18); ctx.lineTo(nx-6,ny+2); ctx.lineTo(nx,ny-2); ctx.closePath();
+ctx.fillStyle='rgba(255,255,255,0.22)'; ctx.fill();
+ctx.beginPath(); ctx.moveTo(nx-6,ny+2); ctx.lineTo(nx,ny+11); ctx.lineTo(nx+6,ny+2); ctx.lineTo(nx,ny-2); ctx.closePath();
+ctx.fillStyle='rgba(255,255,255,0.15)'; ctx.fill();
+ctx.fillStyle='rgba(255,255,255,0.6)'; ctx.font='9px Segoe UI'; ctx.textAlign='center';
+ctx.fillText('N',nx,ny+23); ctx.restore();
+
+// Scale bar  (1km ≈ 14.4px; 5km ≈ 72px)
+const sx=258, sy=458;
+ctx.save();
+ctx.fillStyle='rgba(255,255,255,0.6)'; ctx.fillRect(sx,sy-4,72,5);
+ctx.strokeStyle='rgba(255,255,255,0.6)'; ctx.lineWidth=1; ctx.strokeRect(sx,sy-4,144,5);
+ctx.beginPath(); ctx.moveTo(sx+72,sy-4); ctx.lineTo(sx+72,sy+2); ctx.stroke();
+ctx.fillStyle='rgba(255,255,255,0.55)'; ctx.font='8.5px Segoe UI'; ctx.textAlign='center';
+ctx.fillText('0',sx,sy+10); ctx.fillText('5',sx+72,sy+10); ctx.fillText('10 km',sx+144,sy+10);
+ctx.restore();
+
+// ── Zone mini-canvases ────────────────────────────────────────────
+
+// Suburban / Green
+(function() {
+  const z = document.getElementById('zc-sub').getContext('2d');
+  const W=142, H=72;
+  z.fillStyle='#0B1C12'; z.fillRect(0,0,W,H);
+  for (let i=0; i<30; i++) {
+    const tx=Math.random()*W, ty=Math.random()*H, tr=4+Math.random()*10;
+    const g=z.createRadialGradient(tx,ty,0,tx,ty,tr);
+    g.addColorStop(0,`rgba(72,168,88,${0.5+Math.random()*0.38})`);
+    g.addColorStop(1,'rgba(38,96,50,0)');
+    z.fillStyle=g; z.beginPath(); z.arc(tx,ty,tr,0,Math.PI*2); z.fill();
+  }
+  for (let i=0; i<9; i++) {
+    const hx=5+Math.random()*(W-18), hy=5+Math.random()*(H-14);
+    z.fillStyle=`rgba(192,172,132,${0.55+Math.random()*0.35})`;
+    z.fillRect(hx,hy,8+Math.random()*4,6+Math.random()*3);
+  }
+  z.fillStyle='rgba(82,150,106,0.07)'; z.fillRect(0,0,W,H);
+})();
+
+// Historic Core
+(function() {
+  const z = document.getElementById('zc-hist').getContext('2d');
+  const W=142, H=72;
+  z.fillStyle='#100F0B'; z.fillRect(0,0,W,H);
+  z.strokeStyle='#090806'; z.lineWidth=2;
+  for (let x=0; x<W; x+=9) { z.beginPath(); z.moveTo(x,0); z.lineTo(x,H); z.stroke(); }
+  for (let y=0; y<H; y+=9) { z.beginPath(); z.moveTo(0,y); z.lineTo(W,y); z.stroke(); }
+  for (let bx=1; bx<W-1; bx+=9) {
+    for (let by=1; by<H-1; by+=9) {
+      z.fillStyle=`rgba(215,178,112,${0.32+Math.random()*0.55})`;
+      z.fillRect(bx,by,5+Math.random()*2,4+Math.random()*2);
+    }
+  }
+  z.fillStyle='rgba(63,189,189,0.06)'; z.fillRect(0,0,W,H);
+})();
+
+// Residential
+(function() {
+  const z = document.getElementById('zc-res').getContext('2d');
+  const W=142, H=72;
+  z.fillStyle='#0D1720'; z.fillRect(0,0,W,H);
+  z.fillStyle='#07101A';
+  for (let x=0; x<W; x+=48) z.fillRect(x,0,4,H);
+  for (let y=0; y<H; y+=32) z.fillRect(0,y,W,3);
+  [[6,5,36,22],[52,5,36,22],[98,5,38,22],[6,34,42,22],[58,34,30,22],[98,34,38,22]].forEach(([bx,by,bw,bh]) => {
+    z.fillStyle=`rgba(148,185,215,${0.28+Math.random()*0.32})`; z.fillRect(bx,by,bw,bh);
+    z.fillStyle='rgba(212,149,74,0.65)';
+    for (let wx=bx+4; wx<bx+bw-4; wx+=6)
+      for (let wy=by+4; wy<by+bh-4; wy+=5)
+        z.fillRect(wx,wy,2.5,2);
+  });
+  z.fillStyle='rgba(212,149,74,0.05)'; z.fillRect(0,0,W,H);
+})();
+</script>
