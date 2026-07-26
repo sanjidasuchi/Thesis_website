@@ -95,18 +95,12 @@ header h1 {
     letter-spacing: -0.5px;
 }
 
-header .header-divider {
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, #2BBFBF, #7FE8E8);
-    margin: 22px auto;
-}
-
 header .subtitle {
     font-size: 11px;
     color: #2BBFBF;
     letter-spacing: 3px;
     text-transform: uppercase;
+    margin-top: 20px;
     margin-bottom: 16px;
 }
 
