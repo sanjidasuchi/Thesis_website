@@ -131,6 +131,10 @@ header .author-name {
     font-weight: 700;
 }
 
+header p {
+    text-align: center;
+}
+
 .scroll-hint {
     display: none;
 }
@@ -584,6 +588,10 @@ footer {
     font-size: 12px;
     color: #7A9AB8;
     letter-spacing: 0.3px;
+}
+
+footer p {
+    text-align: center;
 }
 
 .footer-logos {
