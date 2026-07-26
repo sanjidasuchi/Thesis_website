@@ -247,6 +247,7 @@ p {
     color: #354F6E;
     margin-bottom: 14px;
     font-size: 15px;
+    text-align: justify;
 }
 
 p:last-child {
