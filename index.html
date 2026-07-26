@@ -116,7 +116,8 @@
 
         <section id="results">
             <h2>Key Results</h2>
-            <p>Spearman rank correlations between population-normalised citizen perception marks and satellite-derived environmental indicators were statistically significant across all seven topics (p&nbsp;&lt;&nbsp;0.001). The composite urban stress index constructed for the <em>Need for Change</em> topic, combining Land Surface Temperature, NO<sub>2</sub> column density, and inverted NDVI, yielded the strongest overall correlation (&rho;&nbsp;=&nbsp;+0.712), demonstrating that multi-source composite indicators outperform single-variable models. The <em>Waste Bin</em> topic showed the highest OLS R&sup2; (0.434), with population density emerging as the sole statistically significant predictor once imperviousness was controlled for.</p>
+            <p>Spearman rank correlations between population-normalised citizen perception marks and satellite-derived environmental indicators were statistically significant across all seven topics (p&nbsp;&lt;&nbsp;0.001). The summary table below lists the strongest indicator per topic; individual findings are described beneath it.</p>
+
 
             <div class="data-table-wrap">
                 <table>
@@ -175,6 +176,22 @@
                 </table>
             </div>
             <p class="table-note">All correlations significant at p&nbsp;&lt;&nbsp;0.001. &rho; values are population-normalised where applicable.</p>
+
+            <h3 class="subsection-title">Topic-by-Topic Findings</h3>
+
+            <p><strong>Safety (&rho;&nbsp;=&nbsp;+0.485).</strong> Nighttime light intensity was the strongest predictor of safety perception. Hexagons with brighter artificial illumination received consistently higher safety marks, reflecting well-established links between street lighting and perceived personal security. NDVI showed a weaker but significant positive association, suggesting that well-lit green spaces are perceived as safe rather than threatening in the Prague context.</p>
+
+            <p><strong>Free Time (&rho;&nbsp;=&nbsp;+0.261).</strong> Vegetation cover (NDVI) was the strongest correlate of leisure activity marks. Importantly, the raw correlation was negative (&minus;0.221) before population normalisation and reversed to positive (+0.261) after normalisation, demonstrating that PPGIS data must be corrected for residential density before interpretation. Greener hexagons, once adjusted for how many people live there, attract proportionally more free-time activity.</p>
+
+            <p><strong>Lack of Green Space (&rho;&nbsp;=&nbsp;&minus;0.321).</strong> The negative correlation with NDVI confirms that residents mark the absence of green space in areas where satellite data also record low vegetation. Citizen marks function as spatially explicit deficit signals, clustering in built-up low-NDVI zones and largely absent from forested peripheries, consistent with environmental justice patterns documented in European cities.</p>
+
+            <p><strong>Traffic Hazard (&rho;&nbsp;=&nbsp;+0.710).</strong> Imperviousness density (IMD) from the Copernicus High Resolution Layer was the strongest single-variable predictor across all topics. Highly impervious hexagons covering dense road networks and junctions received the most traffic hazard marks, making imperviousness a reliable satellite proxy for citizen-perceived traffic risk at the 1&nbsp;km&sup2; grid scale.</p>
+
+            <p><strong>Civic Pride (&rho;&nbsp;=&nbsp;+0.474).</strong> Nighttime lights emerged as the dominant predictor, with pride marks concentrating in the illuminated inner city and historic core. The result suggests that urban vitality and commercial activity, both reflected in artificial light intensity, shape residents&rsquo; sense of civic identity more strongly than vegetation or surface temperature.</p>
+
+            <p><strong>Need for Change (&rho;&nbsp;=&nbsp;+0.712).</strong> A composite urban stress index combining Land Surface Temperature, NO<sub>2</sub> column density, and inverted NDVI outperformed any single indicator. Hexagons scoring high on thermal stress, air pollution, and low vegetation simultaneously received the most need-for-change marks, confirming that residents perceive cumulative environmental pressure rather than responding to one stressor in isolation.</p>
+
+            <p><strong>Waste Bin (&rho;&nbsp;=&nbsp;+0.716).</strong> Population density (GHSL 2020) was the sole statistically significant predictor in OLS regression once imperviousness was controlled for (R&sup2;&nbsp;=&nbsp;0.434). Demand for waste infrastructure scales directly with how many people occupy a grid cell, and the satellite-derived density layer captures this signal cleanly, validating GHSL as a planning-relevant input for urban service allocation.</p>
 
             <h3 class="subsection-title">Bivariate Choropleth Maps</h3>
             <p class="maps-intro">Each map classifies hexagonal grid cells jointly by citizen perception intensity and the strongest satellite indicator, using a 3&times;3 quantile colour matrix. Dark purple cells indicate areas of both high citizen concern and high environmental stress; light blue cells indicate low perception and high environmental quality.</p>
